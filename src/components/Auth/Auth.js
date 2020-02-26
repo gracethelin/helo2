@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-// import {actionBuilder} from '../../ducks/reducer'
+import {actionBuilder} from '../../ducks/reducer'
+import {connect} from 'react-redux'
 
 class Auth extends Component {
     constructor(props){
@@ -26,10 +27,15 @@ class Auth extends Component {
           const {username, password} = this.state
 
           axios.post(`/api/login`, {username, password}).then(res => {
-            console.log(this.props)
-            this.props.actionBuilder(res.data)
+            console.log(res.data)
+            const username = res.data.username
+            const userId = res.data.user_id
+            const profilePic = res.data.profile_pic
+            this.props.actionBuilder(
+              username, userId, profilePic
+            )
             this.props.history.push("/Dashboard")
-          }).catch(err => console.warn(err))
+          }).catch(err => alert(err))
 
       }
 
@@ -44,7 +50,8 @@ class Auth extends Component {
 
     render(){
         return (
-            <div>
+            <div className="loginBox">
+              <h1>Helo</h1>
                  <ul>
                 <div>Username:</div>
                 <input className="register"
@@ -69,4 +76,4 @@ class Auth extends Component {
     }
 }
 
-export default Auth
+export default connect(null, {actionBuilder})(Auth)

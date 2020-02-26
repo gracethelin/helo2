@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 class Nav extends Component {
     constructor(props){
@@ -9,14 +10,24 @@ class Nav extends Component {
     }
 
     render(){
+        console.log(this.props)
         return (
             <div>
-                 <button> <Link to='/Dashboard'></Link>Home</button>
-                <button> <Link to='/new'></Link>New Post</button>
-                <button><Link to='Auth'></Link>Logout</button>
+                
+                {this.props.username}
+                {this.props.profilePic}
+                  <Link to='/Dashboard'><button>Home</button></Link>
+                 <Link to='/post/:postid'><button>New Post</button></Link>
+                <Link to='/'><button>Logout</button></Link>
             </div>
         )
     }
 }
 
-export default Nav
+const mapStateToProps = reduxState => {
+    console.log(reduxState)
+    const {username, profilePic} = reduxState
+    return {username, profilePic}
+}
+
+export default connect(mapStateToProps)(Nav);

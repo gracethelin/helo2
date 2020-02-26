@@ -10,14 +10,20 @@ const initialState = {
 const ACTION_TYPE = `ACTION_TYPE`
 
 export default function reducer (state = initialState, action) {
-    switch(action.type){
+    const {type, payload} = action
+    switch(type){
         case ACTION_TYPE:
-            // const {username, profilePic, userId} = action.payload.user
+            console.log(payload)
+            return {...state, username:payload.username, profilePic:payload.profilePic, userId:payload.userId} 
+
+            default:   
+             return state
     }
-    return state
+
 }
 
-export function actionBuilder(userId, username, profilePic){
+export function actionBuilder( username,userId, profilePic){
+
     return {
         type: ACTION_TYPE,
         payload: {userId, username, profilePic}
